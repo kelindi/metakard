@@ -10,11 +10,10 @@
     "install-metaplex": "yarn install --cwd ~/metaplex/js/",
     "install-ts-node": "npm install -g ts-node",
     "airdrop": "solana airdrop 1 BKX4qYjn8qBg1mT9Tv3SKmGeByUTPqeS4uWJm5Qsoxp7 --url https://api.devnet.solana.com",
-    "create-candy-machine":"ts-node ./metaplex/js/packages/cli/src/candy-machine-v2-cli.ts upload -e devnet -k ./solana/devnet.json -cp ./configs/config.json -c kard  ./assets"
-
-    
+    "create-candy-machine": "ts-node ./metaplex/js/packages/cli/src/candy-machine-v2-cli.ts upload -e devnet -k ./solana/devnet.json -cp ./configs/config.json -c kard  ./assets"
   },
   "dependencies": {
+    "@triton-labs/wonka": "^1.0.7",
     "next": "12.0.10",
     "react": "17.0.2",
     "react-dom": "17.0.2",
