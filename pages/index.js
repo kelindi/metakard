@@ -1,16 +1,50 @@
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
 
+
 export default function Home() {
-  let [companyName, setCompanyName] = useState("");
-  let [collectionName, setCollectionName] = useState("");
+  let [companyName, setCompanyName] = useState("Kelindi Corp");
+  let [collectionName, setCollectionName] = useState("test1");
+  let [image, setImage] = useState("https://i.ytimg.com/vi/1uvr7CJazqE/maxresdefault.jpg");
   let [price , setPrice] = useState(0.1);
   let [quantity, setQuantity] = useState(1);
-  let [total, setTotal] = useState(0.1);
-  let [name, setName] = useState("");
-  let [description, setDescription] = useState("");
+  let [description, setDescription] = useState("nft test");
+  let [wallet, setWallet] = useState("DYHTCQcjxqsfQ5oD7bf19ptxdTLhdSFbGRCSTvS2YmFG");
+
+  let createCandyMachine = async () => {
+    if (!checkUrl(image)) {
+      alert("Please enter a valid jpg url");
+      return
+    }
+    let response = await fetch(
+      `/api/createCandyMachine`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          companyName,
+          collectionName,
+          image,
+          price,
+          quantity,
+          description,
+          wallet,
+        })  
+  }
+    );
+    let data = await response.json();
+    // read the data
+    let id = data['message']
+    alert(`Your nft machine is ready!\n\nYour nft machine id is: ${id}`)
+  };
+
+  function checkUrl(url) {
+    if(typeof url !== 'string') return false;
+    return(url.match(/^http[^\?]*.(jpg)(\?(.*))?$/gmi) != null);
+}
 
 
   return (
@@ -23,37 +57,36 @@ export default function Home() {
 
       <main className="h-[95%] flex flex-col justify-center text-center items-center">
         <div className="h-1/2 bg-stone-800 w-96 rounded-md shadow-2xl p-4 flex flex-col text-right">
-        <form>
+
         <div>
             <label className="text-stone-100 text-sm px-2">Company Name</label>
-            <input className="bg-stone-100 rounded-sm my-2 outline-none pl-2"></input>
+            <input className="bg-stone-100 rounded-sm my-2 outline-none pl-2" value = {companyName} onChange={e => setCompanyName(e.target.value)}></input>
           </div>
           <div>
             <label className="text-stone-100 text-sm px-2">Collection Name</label>
-            <input className="bg-stone-100 rounded-sm my-2  outline-none pl-2"></input>
+            <input className="bg-stone-100 rounded-sm my-2 outline-none pl-2" value = {collectionName} onChange={e => setCollectionName(e.target.value)}></input>
+          </div>
+          <div>
+          <label type="number" min="1" className="text-stone-100 text-sm px-2">Jpg Image Url</label>
+            <input className="bg-stone-100 rounded-sm my-2  outline-none pl-2"value = {image} onChange={e => setImage(e.target.value)}></input>
           </div>
           <div>
             <label type="number" min="0" className="text-stone-100 text-sm px-2">Price</label>
-            <input className="bg-stone-100 rounded-sm my-2  outline-none pl-2"></input>
+            <input className="bg-stone-100 rounded-sm my-2  outline-none pl-2" value = {price} onChange={e => setPrice(e.target.value)}></input>
           </div>
           <div>
           <label type="number" min="1" className="text-stone-100 text-sm px-2">Quantity</label>
-            <input className="bg-stone-100 rounded-sm my-2  outline-none pl-2"></input>
+            <input className="bg-stone-100 rounded-sm my-2  outline-none pl-2"value = {quantity} onChange={e => setQuantity(e.target.value)}></input>
           </div>
           <div>
-          <label className="text-stone-100 text-sm px-2">WallletAddress</label>
-            <input className="bg-stone-100 rounded-sm my-2 outline-none pl-2"></input>
+          <label className="text-stone-100 text-sm px-2">Wallet Address</label>
+            <input className="bg-stone-100 rounded-sm my-2 outline-none pl-2"value = {wallet} onChange={e => setWallet(e.target.value)}></input>
           </div>
           <div>
-          <label className="text-stone-100 text-sm px-2">Name</label>
-            <input className="bg-stone-100 rounded-sm my-2 outline-none pl-2"></input>
+          <label className="text-stone-100 text-sm px-2">Coupon Description</label>
+            <input className="bg-stone-100 rounded-sm my-2 outline-none pl-2 h-24"value = {description} onChange={e => setDescription(e.target.value)}></input>
           </div>
-          <div>
-          <label className="text-stone-100 text-sm px-2">Description</label>
-            <input className="bg-stone-100 rounded-sm my-2 outline-none pl-2 h-24"></input>
-          </div>
-          <input type="submit" className="bg-teal-400 rounded-sm px-2 py-1" value="Create"></input>
-          </form>
+          <button className="bg-teal-400 rounded-sm px-2 py-1" onClick = {()=>createCandyMachine()}>Create</button>
         </div>
       </main>
 
