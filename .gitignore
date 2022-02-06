@@ -32,3 +32,8 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#wallet
+devnet.json
+mainnet.json
+testnet.json
